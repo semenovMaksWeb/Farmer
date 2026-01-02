@@ -1,3 +1,8 @@
+listDirection = [North,East,South,West]
+listDirectionReverse = [South,West,North,East]
+
+listDirectionReverseObject = {North:South, East:West, South:North, West:East }
+
 def updateGrounds():
 	if get_ground_type() != Grounds.Soil:
 		till()
@@ -21,3 +26,7 @@ def waitHarvest():
 def fertilizer():
 	if num_items(Items.Fertilizer) != 0:
 		use_item(Items.Fertilizer)
+
+def checkHarvest():
+	if can_harvest():
+		harvest()

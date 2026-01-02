@@ -66,6 +66,7 @@ def run(size = get_world_size() * 2**(num_unlocked(Unlocks.Mazes) - 1), countMax
 		if get_entity_type() != Entities.Hedge:
 			# не трава
 			if get_entity_type() != Entities.Bush:
+				harvest()
 				plant(Entities.Bush)
 
 			# лабиринт готов к созданию

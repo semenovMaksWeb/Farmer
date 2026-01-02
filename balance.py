@@ -163,28 +163,42 @@ def carrotDron(cactusPosX, cactusPosY, dronCactusMove):
 	list = {}
 	while(True):
 		# Узнать размеры
+		moveDrop.movePosition(dronCactusX, dronCactusY)
+		print("узнаем размеры")
 		for index in range(get_world_size()):
 			utils.updateGrounds()
 			plant(Entities.Cactus)
 			list[index] = measure()
 			move(dronCactusMove)
-		
+
 		# Попытки сортировать
+		print("Попытки сортировать", list)
 		for item in range(get_world_size()):
+			minValueIndex = None
+			# Поиск минимального числа
 			for findItem in range(get_world_size()):
-				print("item",item)
-				print("findItem",findItem)
-				print("list[item]",list[item])
-				print("list[findItem]",list[findItem])
-				if list[item] < list[findItem]:
-					moveDrop.movePosition(findItem, dronCactusY)
-					while(True):
+				if findItem <= item:
+					continue
+
+				if minValueIndex == None or list[minValueIndex] > list[findItem]:
+					minValueIndex = findItem
+
+			# Проверка что он есть
+			if minValueIndex != None:
+				moveDrop.movePosition(minValueIndex, dronCactusY)
+				while(True):
+					x =  get_pos_x()
+					if x != item:
+						val = list[x]
+						list[x] = list[x - 1]
+						list[x - 1] = val
 						swap(utils.listDirectionReverseObject[dronCactusMove])
-						val = list[item]
-						list[item] = list[findItem]
-						list[findItem] = val
-						if get_pos_x() == item:
-							break
+						move((utils.listDirectionReverseObject[dronCactusMove]))
+					if x == item:
+						break
+		moveDrop.movePosition(get_world_size() / 2, dronCactusY)				
+		print("собрал!", list)
+		harvest()
 
 def run():
 	moveDrop.movePosition(0, 0)

@@ -1,5 +1,7 @@
 import balance
 import fullPumpkin
+import labirint
 
-balance.run()
+labirint.run()
+# balance.run()
 # fullPumpkin.run()

@@ -19,5 +19,5 @@ def waitHarvest():
 			break
 
 def fertilizer():
-    if num_items(Items.Fertilizer) != 0:
-        use_item(Items.Fertilizer)
+	if num_items(Items.Fertilizer) != 0:
+		use_item(Items.Fertilizer)

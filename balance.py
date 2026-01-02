@@ -19,6 +19,16 @@ carrotPosX = True
 sunflowerPosY = [0,10]
 sunflowerPosX = True
 
+# Конфиг тыквы
+# sunflowerPosY = [0,10]
+# sunflowerPosX = True
+
+# Конфиг кактус
+cactusPosY = [11]
+cactusPosX = True
+# Отдельный дрон под кактусы
+dronCactus = True 
+
 # проверка конфига что сажать
 def checkConfig(type):
 	if type == "grass":
@@ -29,6 +39,8 @@ def checkConfig(type):
 		return checkVal(carrotPosX, carrotPosY)
 	if type == "sunflower":
 		return checkVal(sunflowerPosX, sunflowerPosY)
+	if type == "cactus":
+		return checkVal(cactusPosX, cactusPosY)
 
 	return checkVal(grassPosX, grassPosY)
 
@@ -65,40 +77,65 @@ def checkVal(arrX, arrY):
 
 	return resultCheckY and resultCheckX
 
-def run():
+def dronSpan():
+	while num_drones() < max_drones():
+		numDrones = num_drones()
+		def fun():
+			funDron(0, get_world_size() / 2 - numDrones)
+		spawn_drone(fun)
+
+# Общая логика дронов
+def funDron(x,y):
+	moveDrop.movePosition(x, y)
 	while True:
-		if can_harvest():
-			harvest()
-		yDrop = get_pos_y()
-		xDrop = get_pos_x()
+		balance()
 
-		if checkConfig("sunflower"):
-			plant(Entities.Sunflower)	
+# Общая логика крафта всего
+def balance():
+	if can_harvest():
+		harvest()
+	yDrop = get_pos_y()
+	xDrop = get_pos_x()
+
+	if checkConfig("sunflower"):
+		utils.updateGrounds()
+		plant(Entities.Sunflower)	
   
-		if checkConfig("grass"):
-			plant(Entities.Grass)
+	if checkConfig("grass"):
+		plant(Entities.Grass)
 
-		#  Растет кусты и деревья
-		if checkConfig("tree"):
-			if xDrop % 2 == 0:
-				plant(Entities.Tree)
-				utils.water()
-			else:
-				plant(Entities.Bush)
-				utils.fertilizer()	
-		# Растет морковь
-		if checkConfig("carrot"):
-			utils.updateGrounds()
-			plant(Entities.Carrot)
+	#  Растет кусты и деревья
+	if checkConfig("tree"):
+		if xDrop % 2 == 0:
+			plant(Entities.Tree)
 			utils.water()
+		else:
+			plant(Entities.Bush)
+			utils.fertilizer()	
+	# Растет морковь
+	if checkConfig("carrot"):
+		utils.updateGrounds()
+		plant(Entities.Carrot)
+		utils.water()
 
-		yDrop = yDrop + 1 
-		if yDrop > get_world_size() - 1:
-			yDrop = 0
-			xDrop = xDrop + 1
-	
-		if xDrop > get_world_size() - 1:
-			xDrop = 0
-			yDrop = 0
-	
-		moveDrop.movePosition(xDrop, yDrop)
+	# Растет кактус
+	if checkConfig("cactus") and dronCactus == False:
+		utils.updateGrounds()
+		plant(Entities.Cactus)
+
+	xDrop = xDrop + 1 
+	if xDrop > get_world_size() - 1:
+		xDrop = 0
+		yDrop = yDrop + 1
+
+	if yDrop > get_world_size() - 1:
+		xDrop = 0
+		yDrop = 0
+
+	moveDrop.movePosition(xDrop, yDrop)
+
+def run():
+	moveDrop.movePosition(0, 0)
+	while True:
+		dronSpan()
+		balance()

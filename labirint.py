@@ -1,9 +1,9 @@
+import utils
+
 def generatorKeysList(x,y):
 	return "x" + str(x) + "y" + str(y)
 
 def run(size = get_world_size() * 2**(num_unlocked(Unlocks.Mazes) - 1), countMax = 5):
-	listDirection = [North,East,South,West]
-	listDirectionPath = [South,West,North,East]
 	path = []
 	list = {}
 	countCur = 0
@@ -15,7 +15,7 @@ def run(size = get_world_size() * 2**(num_unlocked(Unlocks.Mazes) - 1), countMax
 			# Создание клетки и определения путей
 			if generatorKeysList(x,y) not in list:
 				list[generatorKeysList(x,y)] = { }
-				for itemDirection in listDirection:
+				for itemDirection in utils.listDirection:
 					if(can_move(itemDirection)):
 						list[generatorKeysList(x,y)][str(itemDirection)] = True   
 					else: 
@@ -24,12 +24,12 @@ def run(size = get_world_size() * 2**(num_unlocked(Unlocks.Mazes) - 1), countMax
 			#x, y = measure()
 			index = -1
 			checkMove = False
-			for itemDirection in listDirection:
+			for itemDirection in utils.listDirection:
 				index = index + 1
 				# Путь есть и если дрон пришел не оттуда
-				if list[generatorKeysList(x,y)][str(itemDirection)] and listDirectionPath[index] != itemDirection:
+				if list[generatorKeysList(x,y)][str(itemDirection)] and utils.listDirectionReverse[index] != itemDirection:
 					list[generatorKeysList(x,y)][str(itemDirection)] = False
-					path.append(listDirectionPath[index])
+					path.append(utils.listDirectionReverse[index])
 					move(itemDirection)
 					checkMove = True
 					break
@@ -44,7 +44,7 @@ def run(size = get_world_size() * 2**(num_unlocked(Unlocks.Mazes) - 1), countMax
 
 					checkMovePath = False
 
-					for itemDirection in listDirection:
+					for itemDirection in utils.listDirection:
 						if list[generatorKeysList(xPath, yPath)][str(itemDirection)]:
 							checkMovePath = True
 					if checkMovePath:

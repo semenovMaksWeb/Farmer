@@ -33,7 +33,7 @@ def movePumpkin(multiplicity):
 
 
 def generatorDrone(listDrone):
-	while(num_drones() < max_drones()):
+	while(num_drones() < max_drones() and num_drones() != get_world_size()):
 		def funDrone():
 			return movePumpkin(num_drones() - 1)
 		listDrone.append(spawn_drone(funDrone))
@@ -46,6 +46,9 @@ def run():
 		generatorDrone(listDrone)
 		movePumpkin(0)
 		# Бесконечно ждать когда все дроны выполнят свои задачи
+		maxDrones = max_drones() - 1
+		if max_drones() > get_world_size():
+			maxDrones = get_world_size() - 1
 		while(True):
 			countTrue = 0
 			for itemDrone in listDrone:
@@ -53,6 +56,6 @@ def run():
 				if check == False:
 					break
 				countTrue = countTrue + 1
-			if countTrue == max_drones() - 1:
+			if countTrue == maxDrones:
 				break
 		harvest()

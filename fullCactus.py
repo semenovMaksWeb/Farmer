@@ -74,28 +74,42 @@ def moveCactus(multiplicity):
 	return True
 
 
-def generatorDrone(listDrone):
+def generatorDrone(listDrone, fun):
 	while(num_drones() < max_drones()):
 		def funDrone():
-			return moveCactus(num_drones() - 1)
+			return fun(num_drones() - 1)
 		listDrone.append(spawn_drone(funDrone))
 
 # старт функции
 def run():
 	# Бесконечно создавать дронов
 	while(True):
-		listDrone = []	
-		generatorDrone(listDrone)
-		moveCactus(0)
-		
-		# Бесконечно ждать когда все дроны выполнят свои задачи
-		while(True):
-			countTrue = 0
-			for itemDrone in listDrone:
-				check = has_finished(itemDrone)
-				if check == False:
-					break
-				countTrue = countTrue + 1
-			if countTrue == max_drones() - 1:
-				break
+		listDrone = []
+		# Обработка Y
+		generatorDrone(listDrone, funMoveCactusY)
+		funMoveCactusY(0)	
+		waitDrone(listDrone)
+		# Обработка X
+		listDrone = []
+		generatorDrone(listDrone, funMoveCactusX)
+		funMoveCactusX(0)
+		waitDrone(listDrone)
 		harvest()
+
+def funMoveCactusY(multiplicity):
+	droneCheckLinia(multiplicity, "y")
+
+def funMoveCactusX(multiplicity):
+	droneCheckLinia(multiplicity, "x")
+
+# Ожидание когда все дроны завершат свою действия
+def waitDrone(listDrone):
+	while(True):
+		countTrue = 0
+		for itemDrone in listDrone:
+			check = has_finished(itemDrone)
+			if check == False:
+				break
+			countTrue = countTrue + 1
+		if countTrue == max_drones() - 1:
+			break

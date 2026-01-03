@@ -1,10 +1,10 @@
 import moveDrop
 import utils
 
-countGrass = 4 # Кол-во строк для фарма травы
-countSunflower = 3 # Кол-во строк для фарма энергии
-countTree = 4 # Кол-во строк для фарма дерева
-countCarrot = 3 # Кол-во строк для фарма дерева
+countGrass = 7 # Кол-во строк для фарма травы
+countSunflower = 10 # Кол-во строк для фарма энергии
+countTree = 5 # Кол-во строк для фарма дерева
+countCarrot = 10 # Кол-во строк для фарма моркови
 
 # Логика перемещения дрона
 def moveDron(xStart, xEnd, yStart, yEnd):

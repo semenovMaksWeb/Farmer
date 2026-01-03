@@ -17,41 +17,33 @@ def harvestTreasure(size):
 	use_item(Items.Weird_Substance, size)
 
 def run(size = get_world_size() * 2**(num_unlocked(Unlocks.Mazes) - 1)):
-	preMove = None
+	preMove = { "value": None }
 	while True:
-		createHedge(size)
-		harvestTreasure(size)
-		listMove = []
-		for itemDirection in utils.listDirection:
-			if can_move(itemDirection) and preMove != utils.listDirectionReverseObject[itemDirection]:
-				listMove.append(itemDirection)
-		if len(listMove) == 1:
-			preMove = listMove[0]
-			move(listMove[0])
-		else:
-			index = -1
-			for moveItem in listMove:
-				index = index + 1
-				if index == len(listMove) - 1:
-					move(listMove[len(listMove) - 1])
-				else:
-					generatorDrone(moveItem)
+		funDrone(size)
 
-# Создание дронов в лабиринте
-def generatorDrone(itemDirection):
-	def droneFun():
-		moveDroneCheck(itemDirection)
-	if max_drones() != num_drones():
-		spawn_drone(droneFun)
-	else:
-		while True:
-			if max_drones() != num_drones():
-				spawn_drone(droneFun)
-				break
-
-def moveDroneCheck(moveDrone):
-	move(moveDrone)
+# Возвращает список куда можно переместить дрона
+def getListPath():
+	listMove = {}
 	for itemDirection in utils.listDirection:
-			if(can_move(itemDirection) and moveDrone != itemDirection):
-				generatorDrone(itemDirection)
-	return True
+		if(can_move(itemDirection)):
+			listMove[itemDirection] = True
+
+# Определения движения дрона
+def moveDrone(moveList, preValue):
+	# if moveList[]
+	return
+
+# общая функция на дронов
+def funDrone(size, preMove):
+	createHedge(size) # Проверка и создание лабиринта
+	harvestTreasure(size) # забрать сокровище
+	moveList = getListPath() # Узнать путь куда можно двигаться
+	
+	# Путь 1 идем это тупик
+	if len(moveList) == 1 and preMove["value"] != None:
+		# Уничтожить дрона
+		return
+	
+	# есть 1 путь
+	if len(moveList) == 2 and preMove["value"] != None and preMove["value"] == utils.listDirectionReverseObject[preMove["value"]]:
+		move()

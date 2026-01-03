@@ -1,4 +1,4 @@
-import balance2
+import balance
 import fullCactus
 import fullPumpkin
 import labirint
@@ -8,8 +8,8 @@ import dinosaur
 # harvest()
 # clear()
 # dinosaur.run()
-
+# labirint.run()
 # labirint2.run()
-balance2.run()
+balance.run()
 # fullPumpkin.run()
 # fullCactus.run()

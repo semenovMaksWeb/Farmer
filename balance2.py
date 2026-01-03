@@ -3,7 +3,7 @@ import utils
 
 # Конфиг травы
 grassYStart = 2
-grassYEnd = 2
+grassYEnd = 3
 grassXStart = 0
 grassXEnd = get_world_size() - 1
 
@@ -86,18 +86,46 @@ def droneSunflower():
 
 
 # Функция вызова дрона фарм энергии нужно переделать на поиск max
-def droneCarrot():
-	moveDrop.movePosition(carrotXStart, carrotYStart)
-	while True:
-		utils.checkHarvest()
-		utils.updateGrounds()
-		plant(Entities.Carrot)
-		utils.water()
-		moveDron(carrotXStart, carrotXEnd, carrotYStart, carrotYEnd)
+def droneTreeMany(XStart, XEnd, YStart, YEnd):
+	def fun():
+		moveDrop.movePosition(XStart, YStart)
+		while True:
+			x = get_pos_x()
+			y = get_pos_y()
+
+			if (y % 2 == 0 and x %2 != 0) or (y % 2 != 0 and x %2 == 0):
+				utils.checkHarvest()
+				plant(Entities.Tree)
+				utils.water()
+			else:
+				utils.checkHarvest()
+				plant(Entities.Bush)
+				utils.fertilizer()
+			moveDron(XStart, XEnd, YStart, YEnd)
+	spawn_drone(fun)
+
+# Функция вызова дрона фарм травы
+def droneGrassMany(XStart, XEnd, YStart, YEnd):
+	def fun():
+		moveDrop.movePosition(XStart, YStart)
+		while True:
+			utils.checkHarvest()
+			plant(Entities.Grass)
+			moveDron(XStart, XEnd, YStart, YEnd)
+	spawn_drone(fun)
+
+
 
 # Общая функция старта
 def run():
-	spawn_drone(droneGrass)
-	spawn_drone(droneTree)
-	spawn_drone(droneCarrot)
+	start = 2
+	count = 15
+	for i in range(count):
+		droneGrassMany(0, get_world_size() - 1, start + i, start + i)
+	
+	# start = start + count
+	# count = 7
+	# for i in range(count):
+	# 	droneTreeMany(0, get_world_size() - 1, start + i, start + i)
+	
 	droneSunflower()

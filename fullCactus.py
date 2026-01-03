@@ -3,29 +3,34 @@ import utils
 
 # нужно переделать 1 дрон изучает лево право
 
-# Движение дронов
-def movePumpkin(multiplicity):
-	posY = multiplicity
+
+# Общая логика проверки линии
+def droneCheckLinia(multiplicity, checkType):
+	pos = multiplicity
 	list = {}
-	count = 0
+	moveType = None
 	while True:	
-		if posY > get_world_size() - 1:
-			print(count)
+		if pos > get_world_size() - 1:
 			return True
-		moveDrop.movePosition(posY, 0)
+		
+		#  Определить место перемещения
+		if checkType == "x":
+			moveDrop.movePosition(0, pos)
+			moveType = East
+		else: 
+			moveDrop.movePosition(pos, 0)
+			moveType = North
+
 		# создание кактусов
 		for index in range(get_world_size()):
 			if get_entity_type() != Entities.Cactus:
 				harvest()
 			utils.updateGrounds()
 			plant(Entities.Cactus)
-			if measure() == 0:
-				count = count + 1
 			list[index] = measure()
-			move(North)
-	
+			move(moveType)
+
 		# Попытки сортировать
-		
 		for item in range(get_world_size()):
 			minValueIndex = None
 			# Поиск минимального числа
@@ -38,26 +43,41 @@ def movePumpkin(multiplicity):
 
 			# Проверка что он есть
 			if minValueIndex != None:
-				moveDrop.movePosition(posY, minValueIndex)
+				if checkType == "x":
+					moveDrop.movePosition(minValueIndex, pos)
+				else:
+					moveDrop.movePosition(pos, minValueIndex)
+
 				while(True):
-					y =  get_pos_y()
-					if y != item:
-						val = list[y]
-						list[y] = list[y - 1]
-						list[y - 1] = val
-						swap(utils.listDirectionReverseObject[North])
-						move((utils.listDirectionReverseObject[North]))
-					if y == item:
+					posDrone = None
+					if checkType == "x":
+						posDrone = get_pos_x()
+					else:
+						posDrone = get_pos_y()
+					if posDrone != item:
+						val = list[posDrone]
+						list[posDrone] = list[posDrone - 1]
+						list[posDrone - 1] = val
+						swap(utils.listDirectionReverseObject[moveType])
+						move((utils.listDirectionReverseObject[moveType]))
+					if posDrone == item:
 						break
 
-		posY = posY + max_drones()
+		pos = pos + max_drones()
 		list = {}
+
+
+# Движение дронов
+def moveCactus(multiplicity):
+	droneCheckLinia(multiplicity, "x")
+	droneCheckLinia(multiplicity, "y")
+	return True
 
 
 def generatorDrone(listDrone):
 	while(num_drones() < max_drones()):
 		def funDrone():
-			return movePumpkin(num_drones() - 1)
+			return moveCactus(num_drones() - 1)
 		listDrone.append(spawn_drone(funDrone))
 
 # старт функции
@@ -66,7 +86,8 @@ def run():
 	while(True):
 		listDrone = []	
 		generatorDrone(listDrone)
-		movePumpkin(0)
+		moveCactus(0)
+		
 		# Бесконечно ждать когда все дроны выполнят свои задачи
 		while(True):
 			countTrue = 0

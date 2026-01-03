@@ -47,9 +47,12 @@ def run():
 		movePumpkin(0)
 		# Бесконечно ждать когда все дроны выполнят свои задачи
 		while(True):
+			countTrue = 0
 			for itemDrone in listDrone:
 				check = has_finished(itemDrone)
 				if check == False:
 					break
-			break
+				countTrue = countTrue + 1
+			if countTrue == max_drones() - 1:
+				break
 		harvest()

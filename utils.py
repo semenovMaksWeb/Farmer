@@ -3,6 +3,10 @@ listDirectionReverse = [South,West,North,East]
 
 listDirectionReverseObject = {North:South, East:West, South:North, West:East }
 
+# Генерация ключа
+def generatorKeys(x,y):
+	return "x" + str(x) + "y" + str(y)
+
 # Сменить грунт
 def updateGrounds():
 	if get_ground_type() != Grounds.Soil:

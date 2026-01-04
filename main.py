@@ -5,7 +5,7 @@ import labirint
 import labirint2
 import dinosaur
 import dinosaur2
-import test
+
 
 # harvest()
 # clear()

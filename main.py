@@ -14,7 +14,7 @@ import test
 # labirint2.run()
 
 
-dinosaur2.run()
-# balance.run()
+# dinosaur2.run()
+balance.run()
 # fullPumpkin.run()
 # fullCactus.run()

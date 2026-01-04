@@ -1,4 +1,3 @@
-import moveDrop
 import utils
 
 # нужно переделать 1 дрон изучает лево право
@@ -15,10 +14,10 @@ def droneCheckLinia(multiplicity, checkType):
 		
 		#  Определить место перемещения
 		if checkType == "x":
-			moveDrop.movePosition(0, pos)
+			utils.movePosition(0, pos)
 			moveType = East
 		else: 
-			moveDrop.movePosition(pos, 0)
+			utils.movePosition(pos, 0)
 			moveType = North
 
 		# создание кактусов
@@ -44,9 +43,9 @@ def droneCheckLinia(multiplicity, checkType):
 			# Проверка что он есть
 			if minValueIndex != None:
 				if checkType == "x":
-					moveDrop.movePosition(minValueIndex, pos)
+					utils.movePosition(minValueIndex, pos)
 				else:
-					moveDrop.movePosition(pos, minValueIndex)
+					utils.movePosition(pos, minValueIndex)
 
 				while(True):
 					posDrone = None

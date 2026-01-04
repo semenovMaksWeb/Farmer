@@ -1,6 +1,4 @@
-import moveDrop
 import utils
-
 
 # Ожидание появление тыквы
 def waitPumpkin():
@@ -23,7 +21,7 @@ def movePumpkin(multiplicity):
 	while True:	
 		if posY > get_world_size() - 1:
 			return True
-		moveDrop.movePosition(0, posY)
+		utils.movePosition(0, posY)
 		for row in range(get_world_size()):
 			utils.updateGrounds()
 			waitPumpkin()

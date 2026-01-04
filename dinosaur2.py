@@ -1,6 +1,4 @@
-import moveDrop
 import utils
-
 
 # Смена шапки
 def harvestDinosaur():
@@ -11,7 +9,7 @@ def harvestDinosaur():
 def run():
 	harvestDinosaur()
 	clear()
-	moveDrop.movePosition(0,0)
+	utils.movePosition(0,0)
 	count = {"value": 0}
 	harvestDinosaur()
 	while True:

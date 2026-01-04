@@ -1,4 +1,3 @@
-import moveDrop
 import utils
 
 def generatorKeys(x,y):
@@ -11,7 +10,7 @@ def run():
 	while True:
 		for x in range(get_world_size()):
 			for y in range(get_world_size()):
-				moveDrop.movePosition(x, y)
+				utils.movePosition(x, y)
 				plant_type, (x, y) = get_companion()
 				list[generatorKeys(x,y)] = {"type": plant_type}
 		print(list)
@@ -19,13 +18,13 @@ def run():
 		for x in range(get_world_size()):
 			for y in range(get_world_size()):
 				if generatorKeys(x,y) in list:
-					moveDrop.movePosition(x, y)
+					utils.movePosition(x, y)
 					utils.updateGrounds()
 					utils.water(0.8)
 					plant(list[generatorKeys(x,y)]["type"])
 		
 		for x in range(get_world_size()):
 			for y in range(get_world_size()):
-				moveDrop.movePosition(x, y)
+				utils.movePosition(x, y)
 				utils.waitHarvest()
 				plant(Entities.Grass)

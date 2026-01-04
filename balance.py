@@ -1,4 +1,3 @@
-import moveDrop
 import utils
 
 countGrass = 7 # Кол-во строк для фарма травы
@@ -14,22 +13,22 @@ def moveDron(xStart, xEnd, yStart, yEnd):
 	if x == xEnd and y == yEnd:
 		x = xStart
 		y = yStart
-		moveDrop.movePosition(x,y)
+		utils.movePosition(x,y)
 		return
 	
 	if x == xEnd:
 		x = 0
 		y = y + 1
-		moveDrop.movePosition(x,y)
+		utils.movePosition(x,y)
 		return
 
 	x = x + 1
-	moveDrop.movePosition(x,y)
+	utils.movePosition(x,y)
 
 # Функция вызова дрона фарм энергии нужно переделать на поиск max
 def droneTreeMany(XStart, XEnd, YStart, YEnd):
 	def fun():
-		moveDrop.movePosition(XStart, YStart)
+		utils.movePosition(XStart, YStart)
 		while True:
 			x = get_pos_x()
 			y = get_pos_y()
@@ -48,7 +47,7 @@ def droneTreeMany(XStart, XEnd, YStart, YEnd):
 # Функция вызова дрона фарм травы
 def droneGrassMany(XStart, XEnd, YStart, YEnd):
 	def fun():
-		moveDrop.movePosition(XStart, YStart)
+		utils.movePosition(XStart, YStart)
 		while True:
 			utils.checkHarvest()
 			plant(Entities.Grass)
@@ -59,7 +58,7 @@ def droneGrassMany(XStart, XEnd, YStart, YEnd):
 # Функция вызова дрона фарм энергии
 def droneSunflowerMany(XStart, XEnd, YStart, YEnd):
 	def fun():
-		moveDrop.movePosition(XStart, YStart)
+		utils.movePosition(XStart, YStart)
 		while True:
 			utils.water()
 			utils.checkHarvest()
@@ -70,7 +69,7 @@ def droneSunflowerMany(XStart, XEnd, YStart, YEnd):
 
 def droneCarrotMany(XStart, XEnd, YStart, YEnd):
 	def fun():
-		moveDrop.movePosition(XStart, YStart)
+		utils.movePosition(XStart, YStart)
 		while True:
 			utils.water()
 			utils.checkHarvest()

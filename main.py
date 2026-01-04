@@ -4,17 +4,17 @@ import fullPumpkin
 import labirint
 import labirint2
 import dinosaur
+import dinosaur2
 import test
 
 # harvest()
 # clear()
-dinosaur.run()
+# dinosaur.run()
 # labirint.run()
 # labirint2.run()
 
-# balance.run()
-# test.run()
-# set_world_size(32)
+
+dinosaur2.run()
 # balance.run()
 # fullPumpkin.run()
 # fullCactus.run()
